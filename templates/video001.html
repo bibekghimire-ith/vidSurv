@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+-->
+
+<link rel="stylesheet" type= "text/css" href=" {{ url_for('static', filename='css/bootstrap.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}" ></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}" ></script>
+
+<style>
+  #container {
+    /*background: #ddd;*/
+
+    /* The image used */
+    background-image: url("http://admin:19319@192.168.43.152:8080/?action=stream");
+
+    /* Full height */
+    height: 600px;
+    /* Center and scale the image nicely */
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+div.controls {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  width: 60%;
+}
+
+div.mybtn {
+  position: fixed;
+  bottom: 20px;
+  right: 16px;
+}
+
+div.snaps {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  width: 30%;
+}
+
+div.logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+button {
+  width: 100px;
+}
+
+
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575.98px) {
+    div.controls {
+      width: 60%;
+    }
+  }
+
+  // Small devices (landscape phones, less than 768px)
+  @media (max-width: 767.98px) {
+    div.controls {
+      width: 60%;
+    }
+  }
+
+  // Medium devices (tablets, less than 992px)
+  @media (max-width: 991.98px) { ... }
+
+  // Large devices (desktops, less than 1200px)
+  @media (max-width: 1199.98px) { ... }
+
+  // Extra large devices (large desktops)
+  // No media query since the extra-large breakpoint has no upper bound on its width
+
+</style>
+
+
+
+    <title></title>
+  </head>
+  <body>
+
+    <div class="container-fluid" id="container">
+  <!-- Content here
+    <div class="card">
+      <h1>Hello... </h1>
+    </div>
+     -->
+     <div class="controls">
+       <div class="mybtn">
+         <div style="text-align:center;">
+          <a href="#" id="up" style="text-decoration: none"><button class="btn btn-outline-success btn-lg">Forward</button></a>
+
+         </div>
+         <br>
+         <div style="text-align:center;">
+          <a href="#" id="left" style="text-decoration: none"><button class="btn btn-outline-success btn-lg">Left</button></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="#" id="right" style="text-decoration: none"><button class="btn btn-outline-success btn-lg">Right</button></a>
+         </div>
+         <br>
+
+         <div style="text-align:center;">
+        <a href="#" id="down" style="text-decoration: none"><button class="btn btn-outline-success btn-lg">Backward</button></a>
+        </div>
+
+       </div>
+
+     </div>
+
+
+     <div class="snaps">
+      <div style="text-align:center;">
+       	<a href="#" id="snapshot" style="text-decoration: none"><button class="btn btn-outline-info">Snapshot</button></a>
+        &nbsp;&nbsp;&nbsp;
+       	<a href="/view" style="text-decoration: none"><button class="btn btn-outline-info">View</button></a>
+     	</div>
+     </div>
+
+
+     <div style="text-align:center;" class="logout">
+   	   <a href="/logout" id="logout" style="text-decoration: none"><button type="button" class="btn btn-outline-danger">Logout</button></a>
+   	</div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+<!--
+  <div class="card bg-dark text-white">
+  <img src="..." class="card-img" alt="...">
+  <div class="card-img-overlay">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text">Last updated 3 mins ago</p>
+  </div>
+</div>
+-->
+
+<script>
+
+$( document ).ready(function(){
+
+    $("#down").on("mousedown", function() {
+
+     $.get('move/backward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#up").on("mousedown", function() {
+
+     $.get('move/forward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#left").on("mousedown", function() {
+
+     $.get('move/left');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#right").on("mousedown", function() {
+
+     $.get('move/right');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#snapshot").click(function(){
+    	$.get('/snapshot');
+    });
+});
+
+
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Video Surveillance Robot</title>
+  </head>
+  <body class="container">
+
+    <header class="bg-light">
+      <b>Video Surveillance Robot</b>
+    </header>
+
+
+    <div class="row">
+      <div class="col-sm-8" style="background: #cdcdcd;">
+        <!-- 4:3 aspect ratio -->
+        <div class="embed-responsive embed-responsive-4by3" style="height: 400px;">
+          <iframe class="embed-responsive-item" src="..."></iframe>
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="background: #efefef;">
+        <div class="justify-content-center text-center">
+          <br>
+          <h3>Camera View</h3>
+          <a class="btn btn-secondary btn-lg" href="/servo/left" role="button">Left</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-secondary btn-lg" href="/servo/front" role="button">Front</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-secondary btn-lg" href="/servo/right" role="button">Right</a>
+
+          <!--<a href="/ledRed/on" class="button">Servo Front</a>-->
+        </div>
+
+        <br>
+
+        <h3>Controls</h3>
+
+        <div class="text-center">
+          <a class="btn btn-dark btn-lg" href="#" id="up" role="button">Forward</a>
+        </div>
+        <br>
+        <div class="text-center">
+          <a class="btn btn-dark btn-lg" href="#" id="left" role="button">Left</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-danger btn-lg" href="#" id="stop" role="button">Stop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-dark btn-lg" href="#" id="right" role="button">Right</a>
+        </div>
+        <br>
+        <div class="text-center">
+          <a class="btn btn-dark btn-lg" href="#" id="down" role="button">Backward</a>
+        </div>
+        <br>
+      </div>
+    </div>
+
+    <br> <br>
+	
+
+    <footer><br><span>&copy; 072/BEX/08, 11, 19, 24</span></footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  
+  <!--
+  <script>
+	$(document).ready(function(){
+		$("#down").on("mousedown", function(){
+			$.get('move/backward');
+		}).on("mouseup", function(){
+		$.get('move/stop');
+		});
+		
+		$("#up").on("mousedown", function(){
+			$.get('move/forward');
+		}).on("mouseup", function(){
+		$.get('move/stop');
+		});
+		
+		$("#right").on("mousedown", function(){
+			$.get('move/right');
+		}).on("mouseup", function(){
+		$.get('move/stop');
+		});
+		
+		$("#left").on("mousedown", function(){
+			$.get('move/left');
+		}).on("mouseup", function(){
+		$.get('move/stop');
+		});
+	});
+  -->
+  
+  <script>
+  $(document).ready(function(){
+	$("#up").click(function(){
+		$.get('/move/forward');
+	});
+	
+	$("#down").click(function(){
+		$.get('/move/backward');
+	});
+	
+	$("#left").click(function(){
+		$.get('/move/left');
+	});
+	
+	$("#right").click(function(){
+		$.get('/move/right');
+	});
+	
+	$("#stop").click(function(){
+		$.get('/move/stop');
+	});
+	
+  });
+  </script>
+
+  
+  
+  
+  
+  </body>
+</html>

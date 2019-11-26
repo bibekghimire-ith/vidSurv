@@ -1,0 +1,110 @@
+	
+wget -O outpufilenamep.mjpg --user xxx --password pass http://127.0.0.1:8090/?action=stream
+
+************************************************************************************************
+wget -O outpufilenamep.mjpg --user xxx --password pass http://127.0.0.1:8090/?action=stream
+
+ffmpeg -i outfilenamep.mjpg testing.mp4
+
+************************************************************************************************
+
+### VVI ###
+avconv -f mjpeg -re -t 3600 -i http://USERNAME:PASSWORD@IP:PORT/video.cgi -an -r 10 -vcodec mpeg4 ./dlink.mp4
+ // Records for 1 hour
+
+### Creating a Script to Record on a Schedule ###
+
+The command line alone wasn’t good enough for me. I don’t want to keep running the recording manually. Instead it 
+should be part of a CRON script.
+
+Let’s take a look at a possible script:
+
+#!/bin/bash
+
+now=`date '+%Y-%m-%d:%H:%M:%S'`
+avconv -f mjpeg -nostats -loglevel 0 -re -t 3600 -i http://USERNAME:PASSWORD@IP:PORT/video.cgi -an -r 10 -vcodec mpeg4 
+/home/nraboy/dlink_$now.mp4
+In the above record.sh file there are a few differences from what we already saw. For one, notice the use of -nostate 
+and -loglevel tags. This will mute the output of the recording process.
+
+Also note the use of the timestamp. Because this will happen on a CRON at 1 hour intervals, it is probably a good idea 
+to include a timestamp in the filename.
+
+Now let’s say we want to add this to CRON and run it every hour on the hour. Execute the following to edit our CRON 
+schedule:
+
+crontab -e
+At the end of this file, add the following line:
+
+0 * * * * /path/to/record.sh
+Now the recording script will be run every hour. The script itself will only record 1 hour chunks so by the end of the
+ day we should have 24 videos.
+
+Running out of space on your Raspberry Pi storage? Why not include some cleanup to your record.sh file? Include the 
+following somewhere in your script:
+
+find /home/nraboy -type f -mtime +5 -exec rm {} \;
+The above line will remove all files older than 5 days. Now you’re probably going to want to create a directory for your 
+videos to live, otherwise the above will remove your script over time. 
+Just fiddle with things until you find something that works for you.
+
+**************************************************************************************************************************
+
+
+
+ffmpeg -f mjpeg -r 5 -i "http://openwrt:openwrt@localhost:8080/?action=stream" -r 5 ./video.avi
+
+**************************************************************************************************************************
+
+
+
+				### TRY... ###
+you use the output_file.so plugin. so see the options run:
+
+mjpg-streamer -o "output_file.so --help" 
+to get:
+
+Help for output plugin..: FILE output plugin
+ ---------------------------------------------------------------
+The following parameters can be passed to this plugin:
+
+[-f | --folder ]........: folder to save pictures
+[-m | --mjpeg ].........: save the frames to an mjpg file
+[-l | --link ]..........: link the last picture in ringbuffer as this fixed named file
+[-d | --delay ].........: delay after saving pictures in ms
+[-i | --input ].........: read frames from the specified input plugin
+The following arguments are takes effect only if the current mode is not MJPG
+[-s | --size ]..........: size of ring buffer (max number of pictures to hold)
+[-e | --exceed ]........: allow ringbuffer to exceed limit by this amount
+[-c | --command ].......: execute command after saving picture
+use the -m to save the stream to a motion jpg file. if you don't want to save all input frames use the -d to delay 
+between saved frames
+
+
+
+*********************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

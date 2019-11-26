@@ -1,0 +1,7 @@
+--2019-11-12 19:49:51--  http://169.254.142.233:8080/?action=snapshot
+Connecting to 169.254.142.233:8080... connected.
+HTTP request sent, awaiting response... 401 Unauthorized
+Authorization failed.
+--2019-11-12 19:49:51--  http://19-49-48.jpeg.jpg/
+Resolving 19-49-48.jpeg.jpg... failed: Host not found.
+wget: unable to resolve host address `19-49-48.jpeg.jpg'

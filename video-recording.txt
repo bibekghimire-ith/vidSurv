@@ -1,0 +1,246 @@
+avconv/ffmpeg -i http://uv4lserver_address:uv4l_port/stream/video.mjpeg or(x264) -vf  /your_output_dir/filename.videoformat
+
+
+
+**********************************************************************************************************************
+
+import requests
+import time
+import subprocess
+import os.path
+import pathlib
+import base64
+from API import ApiComunicacion
+
+class Camera():
+
+    def __init__(self,recording):
+        self.recording = recording
+        self.api = ApiComunicacion()
+
+    def record_video(self):
+        print('Recording')
+        url = 'http://127.0.0.1:8080/?action=stream'
+        local_filename = url.split('/')[-1]
+        # NOTE the stream=True parameter
+        r = requests.get(url, stream=True)
+
+        filename = time.strftime("%Y%m%d-%H%M%S")+'.mp4'
+        save_path = '/home/pi/Downloads/video'
+        completed_video= os.path.join(save_path, filename)
+
+        i=0
+        with open(completed_video, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024): 
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+                    i = i + 1
+                    #f.flush() commented by recommendation from J.F.Sebastian
+                    if(self.recording == False or i==10000):
+                        print('Sending')
+                        f.close()
+                        with open(completed_video,'rb') as f:
+                            video = f.read()
+                            encode_video = base64.encodebytes(video)
+
+                            json = {'ip_address': '10.10.10.110',
+                                    'date': time.strftime('%Y-%m-%d %H:%M:%S'),
+                                    'video': encode_video}
+
+                            r = self.api.post(json,'createvideo')
+                            a = r.json()
+                            print(a)
+                            path = pathlib.Path(completed_video)
+                            path.unlink()
+                            f.close()
+                            break
+        return local_filename
+
+    def recording(self):
+        self.recording = not self.recording
+
+camera = Camera(True)
+
+camera.record_video()
+so in other words i'm not using the camera two times i'm recording from the streaming of UV4L and 
+then to send it to my server i encode the video with base 64 and send it
+
+*****************************************************************************************************************
+
+
+I have been able to stream PiCamera output to ffmpeg with something like the following:
+
+import picamera
+import subprocess
+
+# start the ffmpeg process with a pipe for stdin
+# I'm just copying to a file, but you could stream to somewhere else
+ffmpeg = subprocess.Popen([
+    'ffmpeg', '-i', '-',
+    '-vcodec', 'copy',
+    '-an', '/home/pi/test.mpg',
+    ], stdin=subprocess.PIPE)
+
+# initialize the camera
+camera = picamera.PiCamera(resolution=(800, 480), framerate=25)
+
+# start recording to ffmpeg's stdin
+camera.start_recording(ffmpeg.stdin, format='h264', bitrate=2000000)
+
+********************************************************************************************************************
+
+
+### Saving Snapshot ###
+1. Take snapshot as variable
+	eg. snapshot = wget https://......
+2. Then save using: snapshot.save(....)
+
+from flask import Flask, render_template, request
+from werkzeug import secure_filename
+app = Flask(__name__)
+
+@app.route('/upload')
+def upload_file():
+    return render_template('upload.html')
+
+@app.route('/uploader', methods = ['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+       file = request.files['file']
+       if file and allowed_file(file.filename):
+           filename = secure_filename(file.filename)
+           file.save(os.path.join("/tmp/", filename))
+
+if __name__ == '__main__':
+    app.run(debug = True)
+
+
+### file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+file.save(os.path.join('UPLOAD_FOLDER', filename))
+*************************************************************************************************************************
+
+
+
+
+Record tty as a Video
+This command must be used by the root user, it won’t work without sudo, because it requires access to the framebuffer
+ device (fbdev). fbdev is the Linux framebuffer input device, this device is the responsible device for showing the 
+graphics in the console.
+
+$ sudo avconv -f fbdev -r 30 -i /dev/fb0 out.avi
+### Use sudo avconv -r 30 -i /dev/fb0 out.avi
+* -r 30: is the number of frames per second.
+* -i /dev/fb0: is the running file device node, by using this option, we’ll be able to capture the video from the tty.
+Amazing isn’t? There are many other good filters to use with your multimedia files beside many other ways of usage for
+ avconv, you can check them all from the official documentation at.
+
+************************************************************************************************************************
+
+import requests
+
+def download_file(url):
+    local_filename = url.split('/')[-1]
+    # NOTE the stream=True parameter
+    r = requests.get(url, stream=True)
+    with open(local_filename, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024): 
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+                #f.flush() commented by recommendation from J.F.Sebastian
+    return local_filename
+
+download_file("http://www.jpopsuki.tv/images/media/eec457785fba1b9bb35481f438cf35a7_1351466328.mp4")
+
+============================================================================================================
+
+
+#!/usr/bin/python
+
+# # # # # # # # # # # # # # # # # # # #
+#                                     #
+# Script was made by Dennis           #
+# http://stefansundin.com/blog/452    #
+# http://pastebin.com/8cw9LHFg        #
+#                                     #
+# # # # # # # # # # # # # # # # # # # #
+ 
+import urllib2, os, re
+
+datadir = '/tmp/'
+# this url has to be obtained by httpfox
+playlist = 'http://www.youtube.com/api/manifest/hls_playlist/id/5iuHXO40V8Q.1/itag/93/source/yt_live_broadcast/ratebypass/yes/live/1/cmbypass/yes/newshard/yes/hls_chunk_host/www.youtube.com/gir/yes/dg_shard/5iuHXO40V8Q.1_93/pmbypass/yes/playlist_type/DVR/cp/U0hXR1VPVF9MTUNON19NSVhIOnV6eHhiQzBZU3lu/maudio/1/fexp/921071,916604,900504,914504,910207,929229,916623,929305,924616,924610,907231/upn/DXHc5N5ymUI/sver/3/cpn/nYSFeYBcBGtS35Ir/ip/2001:bb8:2002:3900:d6be:d9ff:fe4b:8c19/ipbits/48/expire/1382546773/sparams/ip,ipbits,expire,id,itag,source,ratebypass,live,cmbypass,newshard,hls_chunk_host,gir,dg_shard,pmbypass,playlist_type,cp,maudio/signature/24AB1330AB4161CDB1C9B8510F1A8A34A86D0AFB.98D4B116F56398B10E8A8BB1B9304CBF13F64FD9/key/dg_yt0/file/index.m3u8?start_seq='
+
+
+for seq in xrange(0,100000):
+    print "[+] Downloading playlist for seq %s..." % (seq)
+    # skip if already exists
+    if os.path.isfile(datadir+str(seq) + ".done"):
+        print "[+] Sequence %s already done!" % (seq)
+        continue
+    response = urllib2.urlopen(playlist+str(seq))
+    html = response.read()
+    for line in html.split("\n"):
+        if line.startswith("http://"):
+            seq = re.search('/sq/(\d+)/file/', line).group(1)
+            print "[+] Downloading video for sequence %s..." % (seq)
+
+            # skip if already exists
+            if os.path.isfile(datadir+str(seq) + ".done"):
+                print "[+] Sequence %s already done!" % (seq)
+                continue
+
+            response = urllib2.urlopen(line)
+            stream = response.read()
+            f = open(datadir+str(seq)+'.asf', 'w')
+            f.write(stream)
+            f.close()
+            f = open(datadir + str(seq) + ".done", 'w')
+            f.write("")
+            f.close()
+
+# joining stream togeather in losless manner
+# https://trac.ffmpeg.org/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
+
+***************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

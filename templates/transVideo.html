@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link href="./all.css" rel="stylesheet">
+<link rel="stylesheet" href="fontawesome.css">
+<script src="fontawesome.js">
+
+</script>
+<script src="https://kit.fontawesome.com/4966a4aa28.js" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 17px;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+</style>
+</head>
+<body>
+
+<video autoplay muted loop id="myVideo">
+  <source src="rain.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+<button type="button" name="button" style="bottom:0; right:0">Hello</button>
+<input type="button" style="background-image:url('https://www.google.com/imgres?imgurl=https%3A%2F%2Fclipart4biz.com%2Fimages%2Farrow-transparent-glass-1.png&imgrefurl=https%3A%2F%2Fclipart4biz.com%2Fexplore%2Farrow-transparent-glass%2F&docid=nfTyM9k35HdThM&tbnid=dLJb5JNIc5_OgM%3A&vet=10ahUKEwjYq56o6_XlAhXBDOwKHZC0BqEQMwiiASg8MDw..i&w=512&h=512&bih=580&biw=1301&q=arrow%20buttons&ved=0ahUKEwjYq56o6_XlAhXBDOwKHZC0BqEQMwiiASg8MDw&iact=mrc&uact=8')"/>
+
+<i class="fad fa-arrow-alt-circle-left"></i>
+
+<i class="fas fa-clock fa-xs"></i>
+<i class="fas fa-clock fa-sm"></i>
+<i class="fas fa-clock fa-lg"></i>
+<i class="fas fa-clock fa-2x"></i>
+<i class="fas fa-clock fa-5x"></i>
+<span style="font-size: 3em; color: Tomato;"><i class="fas fa-clock fa-10x"></i></span>
+
+<div class="content">
+  <i class="fas fa-user">
+    <i class="far fa-arrow-alt-circle-up"></i>
+
+
+    <div class="fa-4x">
+      <i class="fas fa-snowboarding"></i>
+      <i class="fas fa-snowboarding fa-rotate-90"></i>
+      <i class="fas fa-snowboarding fa-rotate-180"></i>
+      <i class="fas fa-snowboarding fa-rotate-270"></i>
+      <i class="fas fa-snowboarding fa-flip-horizontal"></i>
+      <i class="fas fa-snowboarding fa-flip-vertical"></i>
+      <i class="fas fa-snowboarding fa-flip-both"></i>
+    </div>
+
+
+
+
+
+  <p><i class="material-icons">games</i></p>
+  <i class="far fa-arrow-alt-circle-left"></i>
+  <h1>Heading1</h1>
+  <button type="button" name="button"><span class="glyphicon glyphicon-arrow-down down-arrow" aria-hidden="true" style="color:white;"></span></button>
+  <span class="glyphicon glyphicon-arrow-down down-arrow" aria-hidden="true" style="color:white;"></span>
+  <span class="glyphicon glyphicon-arrow-up up-arrow" aria-hidden="true" style="color:white;"></span>
+  <span class="glyphicon glyphicon-arrow-left left-arrow" aria-hidden="true" style="color:white;"></span>
+  <span class="glyphicon glyphicon-arrow-right right-arrow" aria-hidden="true" style="color:white;"></span>
+
+  <p>Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum tractatos ei. Id qui nemore latine molestiae, ad mutat oblique delicatissimi pro.</p>
+  <button id="myBtn" onclick="myFunction()">Pause</button>
+  <button id="myBtn" onclick="myFunction()">Pause</button>
+  <button id="myBtn" onclick="myFunction()">Pause</button>
+  <button id="myBtn" onclick="myFunction()">Pause</button><button id="myBtn" onclick="myFunction()">Pause</button>
+</div>
+
+<script>
+var video = document.getElementById("myVideo");
+var btn = document.getElementById("myBtn");
+
+function myFunction() {
+  if (video.paused) {
+    video.play();
+    btn.innerHTML = "Pause";
+  } else {
+    video.pause();
+    btn.innerHTML = "Play";
+  }
+}
+</script>
+
+</body>
+</html>

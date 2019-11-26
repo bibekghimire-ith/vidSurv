@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Video Surveillance Robot</title>
+<!-- Required meta tags -->
+
+
+<style type="text/css">
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+
+  /*font-family: Arial, Helvetica, sans-serif;*/
+	font-family: 'Comic Sans MS';
+}
+
+	header{
+	margin: 0px auto;
+	width: 1240px;
+	background: #bd3b0f;
+	text-align: center;
+	font-size: 48px;
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+	}
+
+	b{
+	font-size: 48px;
+	font-family: 'Comic Sans MS';
+	/*text-shadow: 3px 2px red;*/
+}
+
+
+
+
+
+
+
+
+
+  .overlay{position: absolute;
+            display: flex;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+           }
+            .overlay .videoButtonWrapper{
+                flex-direction: row;
+                margin-bottom: 10px;
+            }
+            .videoBackgroundWrapper{position: relative; width: 100%;}
+            .videoBackground{width: 100%;}
+              .tooltip:hover .tooltiptext {
+                  visibility: visible;
+              }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Create three unequal columns that floats next to each other */
+.column {
+	margin: 0px auto;
+	width: 1240px;
+  float: left;
+  padding: 10px;
+  height: 435px; /* Should be removed. Only for demonstration */
+}
+
+/* Left and right column */
+.column.side {
+	margin: 0px auto;
+  width: 30%;
+}
+
+/* Middle column */
+.column.middle {
+	margin: 0px auto;
+  width: 70%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.center {
+	font-size: 28px;
+	font-weight: bold;
+	color: #bcd;
+	text-align: center;
+}
+
+
+button {
+  padding: 15px 25px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  /*box-shadow: 0 9px #999;*/
+}
+button.snapshot, button.view {
+  padding: 15px 25px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #ff4500;
+  border: none;
+  border-radius: 15px;
+  /*box-shadow: 0 9px #999;*/
+}
+button.logout {
+  padding: 15px 25px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #d00;
+  border: none;
+  border-radius: 15px;
+  /*box-shadow: 0 9px #999;*/
+}
+
+
+
+button:hover {background-color: #3e8e41}
+
+button:active {
+  background-color: #100;
+  /*box-shadow: 0 5px #666;*/
+  /*transform: translateY(4px);*/
+}
+
+		span{
+	padding-top: 50%;
+	font-family: 'Comic Sans MS';
+	/*text-shadow: 1px 1px red;*/
+}
+
+
+
+
+.myvideo {
+  position: fixed;
+
+}
+
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+.myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+.myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+	footer{
+	margin: 0px auto;
+	width: 1240px;
+	text-align: center;
+	font-weight: bold;
+	background: #bd3b0f;
+	margin-top: 1em;
+	min-height: 4em;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .side{
+	width: 100%;
+  }
+  .middle {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1240px){
+	.container{
+		width: 100%;
+	}
+	header{
+		width: 100%;
+	}
+
+
+	.middle{
+		width: 70%;
+	}
+	.side{
+		width: 30%;
+	}
+	footer{
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 640px){
+	header{
+		width: 100%;
+	}
+	.container {
+
+		width: 100%;
+	}
+	.column .middle{
+		width: 100%;
+	}
+	.column .side{
+		width: 100%;
+	}
+	footer{
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 320px){
+	.container{
+		width: 320px;
+	}
+}
+
+</style>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<link rel = "stylesheet" src = "{{ url_for('static', filename = 'bootstrap.min.css') }}">
+<script type = "text/javascript" src = "{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src = "{{ url_for('static', filename = 'jquery-3.4.1.js') }}"></script>
+
+
+</head>
+<body>
+
+<div>
+	<header><b>IoT Based Video Surveillance Robot</b></header>
+</div>
+
+<div class="container">
+<div class="row" style="">
+<!-- Camera View -->
+  <!--<div class="column middle" id="middle" style="background-color:#bbb;">
+<div class="col-sm-8" style="background: #cdcdcd;">
+        <-- 4:3 aspect ratio
+        <div class="embed-responsive embed-responsive-4by3" style="height: 400px;">
+          <iframe class="embed-responsive-item" src="..."></iframe>
+        </div>
+      </div>
+
+  <p class="center">Video</p> -->
+	<div class="column middle videoBackgroundWrapper myvideo" id="middle" style="background-color:#bbb;">
+  <img src="http://192.168.43.199:8080/?action=stream" /> <!--Enter the IP Address of your Raspberry Pi-->
+
+<div class="content">
+	<button type="button" class="mybtn" name="button">Hello</button>
+</div>
+
+
+<!--
+	<div class="container">
+	    <div class="position-absolute-wrapper" style="left: 15px; position: absolute; top: 50%; right:15px; transform: translate(0,-50%);">
+	      <h2 class="videoHeader">Prefessional-Quality Videos. Rendered Fast!</h2>
+	      <p class="videoParagaraph">Start with one of over 70 templates and create the perfect video to advertise your product or service</p>
+	      <a class="btn btn-primary videoButtonLeft" href="#" role="button">See Templates</a>
+	      <a class="btn btn-primary videoButtonRight" href="#" role="button">Make A Video</a>
+	    </div>
+	  </div>
+-->
+	<!--
+<div class="overlay">
+	<div class="videoButtonWrapper">
+						 <button class="btn btn-primary fixed-bottom">See Templates</button>
+						 <button class="btn btn-primary">Make Video</button>
+	 </div>
+	</div>
+-->
+
+</div>
+
+
+
+<!-- Column for controls <div class="column side" id="side" style="">-->
+  <div class="column side" id="side" style="">
+
+
+
+  <!-- Control Buttons -->
+  <div class="controls">
+  	<p class="center">Controls</p>
+
+  <div style="text-align:center;">
+  	<a href="#" id="up" style="text-decoration: none"><button >Forward</button></a>
+
+  </div>
+  <br>
+  <div style="text-align:center;">
+  	<a href="#" id="left" style="text-decoration: none"><button >Left</button></a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  	<a href="#" id="right" style="text-decoration: none"><button >Right</button></a>
+  </div>
+  <br>
+
+  <div style="text-align:center;">
+	<a href="#" id="down" style="text-decoration: none"><button >Backward</button></a>
+	</div>
+  </div>
+
+  <br>
+  <div style="text-align:center;">
+	<a href="#" id="snapshot" style="text-decoration: none"><button class="snapshot">Snapshot</button></a>
+	<a href="/view" style="text-decoration: none"><button class="view">View</button></a>
+	</div>
+
+
+
+	<br>
+	<div style="text-align:center;">
+	<a href="/logout" id="logout" style="text-decoration: none"><button type="button" class="logout">Logout</button></a>
+	</div>
+
+
+  </div>
+
+
+  </div>
+
+
+  </div>
+
+
+
+
+
+<footer><br><span>&copy; PUR072BEX008, PUR072BEX011, PUR072BEX019, PUR072BEX024</span></footer>
+
+</div>
+
+
+
+<script>
+
+$( document ).ready(function(){
+
+    $("#down").on("mousedown", function() {
+
+     $.get('move/backward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#up").on("mousedown", function() {
+
+     $.get('move/forward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#left").on("mousedown", function() {
+
+     $.get('move/left');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#right").on("mousedown", function() {
+
+     $.get('move/right');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+		$("#snapshot").click(function(){
+			$.get('/snapshot');
+		});
+});
+
+
+
+</script>
+
+
+</body>
+</html>

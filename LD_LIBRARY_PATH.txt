@@ -1,0 +1,61 @@
+Set on command line when invoking MATLAB:
+
+ [user@host:~]$ LD_LIBRARY_PATH=[$LD_LIBRARY_PATH:]/tpath/shared <ml> &
+where <ml> is the name of your MATLAB executable and tpath is the TOMLAB installation path. If LD_LIBRARY_PATH is already set to something and you wish to preserve this, include the part in [ ] - but not the actual brackets themselves.
+
+Set in $HOME/.bashrc, $HOME/.profile, $HOME/.cshrc (or $HOME/.matlab7rc.sh if it exists):
+
+ export LD_LIBRARY_PATH=/tpath/shared # bash
+ setenv LD_LIBRARY_PATH /tpath/shared # csh and similar
+If you have an existing value in LD_LIBRARY_PATH, use a colon : to separate directories when adding the TOMLAB directory:
+
+ export LD_LIBRARY_PATH=/tpath/shared:$LD_LIBRARY_PATH # bash
+ setenv LD_LIBRARY_PATH /tpath/shared:$LD_LIBRARY_PATH # csh and similar
+If installing for multiple users as super-user, /etc/ld.so.conf.d/tomlab.conf is automatically created, eliminating the need for path manipulation.
+
+Mac OS X installations do not require the corresponding variable DYLD_LIBRARY_PATH to be set, but proper function depends on the location of the tomlab/shared folder and its contents.
+
+
+**********************************************************************
+export LD_LIBRARY_PATH="/usr/local/lib"
+./test.cgi
+**********************************************************************
+3
+
+Make sure that you export LD_LIBRARY_PATH after modifying it. Otherwise GCC won't be able to see the modified version.
+
+LD_LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/3.4.6:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+gcc -o test test.c -lg2c
+**************************************************************************
+Create a new file, record.sh, that will execute raspivid every 15 minutes
+
+sudo nano /home/pi/record.sh
+with this content
+
+#!/bin/sh
+  now=$(date +%d%m%Y-%H%M%S).h264
+  raspivid -o /mnt/video/$now -t 890000 -w 800 -h 600
+When it runs, it starts recording on an output file with the current date, for 890 seconds (a little less than 15 minutes to avoid overlap), with dimensions 800x600
+
+To start recording every 15 minutes use crontab, then type
+
+crontab -e
+and add this lines at the end
+
+*/15 * * * * sudo sh /home/pi/record.sh  >> /home/pi/video.log 2>&1
+* */1 * * * sudo find /mnt/video/* -mmin +360 -exec rm -f {} \; >> /home/pi/video.log 2>&1
+The first line executes the record.sh file every 15 minutes, the second line delete files older than 360 minutes (6 hours).
+
+Save and reboot, your mini dvr is ready.
+
+***************************************************************************************
+
+
+
+
+
+
+
+
+

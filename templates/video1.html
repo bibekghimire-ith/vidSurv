@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Surveillance Robot</title>
+<!-- Required meta tags -->
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+<script type="text/javascript" src = "{{ url_for('static', filename = 'jquery-3.4.1.js') }}">
+<script type="text/javascript" src = "{{ url_for('static', filename = 'bootstrap.min.js') }}">
+<link rel="stylesheet" src = "{{ url_for('static', filename = 'bootstrap.min.css') }}">
+
+
+<style type="text/css">
+* {
+  box-sizing: border-box;
+}
+
+body {
+	margin: 0px auto;
+	width: 1240px;
+	
+  /*font-family: Arial, Helvetica, sans-serif;*/
+	font-family: 'Comic Sans MS';
+}
+
+	header{
+	margin: 0px auto;
+	width: 1240px;
+	background: #bd3b0f;
+	text-align: center;
+	font-size: 48px;
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+	}
+
+	b{
+	font-size: 48px;
+	font-family: 'Comic Sans MS';
+	/*text-shadow: 3px 2px red;*/
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 435px; /* Should be removed. Only for demonstration */
+}
+
+/* Left and right column */
+.column.side {
+  width: 30%;
+}
+
+/* Middle column */
+.column.middle {
+  width: 70%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.center {
+	font-size: 28px;
+	font-weight: bold;
+	color: #bcd;
+	text-align: center;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  /*box-shadow: 0 9px #999;*/
+}
+
+button:hover {background-color: #3e8e41}
+
+button:active {
+  background-color: #100;
+  /*box-shadow: 0 5px #666;*/
+  /*transform: translateY(4px);*/
+}
+
+		span{
+	padding-top: 50%;
+	font-family: 'Comic Sans MS';
+	/*text-shadow: 1px 1px red;*/
+}
+
+	footer{
+	margin: 0px auto;
+	width: 1240px;
+	text-align: center;
+	font-weight: bold;
+	background: #bd3b0f;
+	margin-top: 1em;
+	min-height: 4em;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .column.side, .column.middle {
+    width: 100%;
+  }
+}
+
+	</style>
+</head>
+<body>
+
+<div style="background-color: #666633;">
+	<header><b>IoT Based Video Surveillance Robot</b></header>
+
+<div class="row" style="">
+  <div class="column side" style="">
+  <!-- Camera View -->
+  <!--<div class="camera-view">
+  	<p class="center">Camera View</p>
+  	<div style="text-align:center;">
+  		<a href="#" id="sleft" style="text-decoration: none"><button >Left</button></a>
+  		&nbsp;&nbsp;
+  		<a href="#" id="sfront" style="text-decoration: none"><button >Front</button></a>
+  		&nbsp;&nbsp;
+  		<a href="#" id="sright" style="text-decoration: none"><button >Right</button></a>
+  	</div>
+  	
+  </div>
+-->
+
+  <!-- Control Buttons -->
+  <div class="controls">
+  	<p class="center">Controls</p>
+
+  <div style="text-align:center;">
+  	<a href="#" id="up" style="text-decoration: none"><button >Forward</button></a>
+  	
+  </div>
+  <br>
+  <div style="text-align:center;">
+  	<a href="#" id="left" style="text-decoration: none"><button >Left</button></a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  	<a href="#" id="right" style="text-decoration: none"><button >Right</button></a>
+  </div>
+  <br>
+  
+  <div style="text-align:center;">
+	<a href="#" id="down" style="text-decoration: none"><button >Backward</button></a>
+	</div>
+  </div>
+  
+  
+
+  </div>
+
+  <div class="column middle" style="background-color:#bbb;"><p class="center">Video</p>
+  <img src="http://192.168.43.199:8081" /> <!--Enter the IP Address of your Raspberry Pi-->
+  </div>
+  
+</div>
+
+<footer><br><span>&copy; PUR072BEX008, PUR072BEX011, PUR072BEX019, PUR072BEX024</span></footer>
+
+</div>
+
+
+
+<script>
+
+$( document ).ready(function(){
+
+    $("#down").on("mousedown", function() {
+
+     $.get('move/backward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#up").on("mousedown", function() {
+
+     $.get('move/forward');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#left").on("mousedown", function() {
+
+     $.get('move/left');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+    $("#right").on("mousedown", function() {
+
+     $.get('move/right');
+
+     }).on('mouseup', function() {
+
+     $.get('move/stop');
+
+    });
+
+});
+
+</script>
+
+
+</body>
+</html>
+zzz
